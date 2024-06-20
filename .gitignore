@@ -36,3 +36,5 @@ secrets/
 
 # Local node_modules in monorepos
 **/node_modules/
+
+/src/data

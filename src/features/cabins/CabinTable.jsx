@@ -9,7 +9,7 @@ function CabinTable() {
   const [searchParams] = useSearchParams();
 
   const filterValue = searchParams.get("discount") || "all";
-  const sortValue = searchParams.get("sortBy") || "";
+  const sortValue = searchParams.get("sortBy") || "all";
 
   if (isGettingAllCabins) return <Spinner />;
 

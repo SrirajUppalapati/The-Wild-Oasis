@@ -91,7 +91,8 @@ function Row({ children }) {
 }
 
 function Body({ children }) {
-  if (children === null) return <Empty>There is no data available.</Empty>;
+  if (children === null || children.length === 0)
+    return <Empty>There is no data available.</Empty>;
   return <StyledBody>{children}</StyledBody>;
 }
 
