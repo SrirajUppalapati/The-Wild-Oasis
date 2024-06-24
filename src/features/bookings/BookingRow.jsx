@@ -6,6 +6,19 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
+import { BsEye } from "react-icons/bs";
+import ButtonGroup from "../../ui/ButtonGroup";
+import Button from "../../ui/Button";
+import { FaRegCalendarCheck } from "react-icons/fa";
+import { BiCheck } from "react-icons/bi";
+
+import Spinner from "../../ui/Spinner";
+import { useCheckInOut } from "../check-in-out/useCheckIn";
+import { MdDeleteOutline } from "react-icons/md";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "./useBooking";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -37,11 +50,9 @@ const Amount = styled.div`
 function BookingRow({
   booking: {
     id: bookingId,
-    created_at,
     start_date,
     end_date,
     num_nights,
-    num_guests,
     total_price,
     status,
     guests: { full_name: guestName, email },
@@ -53,6 +64,14 @@ function BookingRow({
     "checked-in": "green",
     "checked-out": "silver",
   };
+
+  const { isPending, checkInOut } = useCheckInOut();
+
+  const { isDeleting, deleteBooking } = useDeleteBooking();
+
+  const navigate = useNavigate();
+
+  if (isPending) return <Spinner />;
 
   return (
     <Table.Row>
@@ -79,6 +98,61 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(total_price)}</Amount>
+
+      <ButtonGroup>
+        {status === "unconfirmed" && (
+          <Button
+            variation="secondary"
+            size="small"
+            onClick={() => navigate(`/checkin/${bookingId}`)}
+          >
+            <FaRegCalendarCheck />
+          </Button>
+        )}
+        {status === "checked-in" && (
+          <Modal>
+            <Modal.Open opens="confirm-checkout">
+              <Button size="small" variation="primary">
+                <BiCheck />
+              </Button>
+            </Modal.Open>
+            <Modal.Window name="confirm-checkout">
+              <ConfirmDelete
+                onConfirm={() =>
+                  checkInOut({ bookingId, status: "checked-out" })
+                }
+                disabled={isPending}
+                resourceName={`checkout ${guestName}`}
+                variation="primary"
+                buttonText="Check Out"
+              />
+            </Modal.Window>
+          </Modal>
+        )}
+        <Button
+          variation="secondary"
+          size="small"
+          onClick={() => navigate(`/bookings/${bookingId}`)}
+        >
+          <BsEye />
+        </Button>
+        <Modal>
+          <Modal.Open opens="confirm-delete">
+            <Button size="small" variation="danger">
+              <MdDeleteOutline />
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="confirm-delete">
+            <ConfirmDelete
+              onConfirm={() => deleteBooking(bookingId)}
+              disabled={isDeleting}
+              resourceName="delete booking"
+              variation="danger"
+              buttonText="Delete"
+            />
+          </Modal.Window>
+        </Modal>
+      </ButtonGroup>
     </Table.Row>
   );
 }

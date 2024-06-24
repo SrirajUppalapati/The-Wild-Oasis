@@ -12,6 +12,8 @@ import AppLayout from "./ui/AppLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import Booking from "./pages/Booking";
+import CheckIn from "./pages/CheckIn";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,8 @@ function App() {
             <Route element={<Dashboard />} path="dashboard" />
             <Route element={<Account />} path="account" />
             <Route element={<Bookings />} path="bookings" />
+            <Route element={<Booking />} path="bookings/:id" />
+            <Route element={<CheckIn />} path="checkin/:id" />
             <Route element={<Cabins />} path="cabins" />
             <Route element={<Settings />} path="settings" />
             <Route element={<Users />} path="users" />

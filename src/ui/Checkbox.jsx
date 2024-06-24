@@ -23,6 +23,9 @@ const StyledCheckbox = styled.div`
     align-items: center;
     gap: 0.8rem;
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 function Checkbox({ checked, onChange, disabled = false, id, children }) {

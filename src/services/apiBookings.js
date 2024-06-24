@@ -1,18 +1,46 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getAllBookings() {
-  const { data, error } = await supabase
+export async function getAllBookings({ filter, sort, page }) {
+  const query = supabase
     .from("bookings")
-    .select("*, cabins(name), guests(full_name, email)");
+    .select("*, cabins(name), guests(full_name, email)", { count: "exact" });
 
+  if (filter !== null) {
+    query.eq("status", filter);
+  }
+
+  if (sort.column && sort.type) {
+    query.order(sort.column, { ascending: sort.type === "asc" });
+  }
+
+  const val = 10;
+
+  const { count: totalCount, error: countError } = await query;
+  if (countError) {
+    console.error(countError);
+    throw new Error(
+      "The bookings data could not be loaded from the database!!"
+    );
+  }
+
+  const maxOffset = (page - 1) * val;
+  const rangeEnd = Math.min(page * val - 1, totalCount - 1);
+  if (maxOffset <= rangeEnd) {
+    query.range(maxOffset, rangeEnd);
+  } else {
+    return { data: [], count: totalCount };
+  }
+
+  const { data, error, count } = await query;
   if (error) {
     console.error(error);
     throw new Error(
       "The bookings data could not be loaded from the database!!"
     );
   }
-  return data;
+
+  return { data, count };
 }
 
 export async function getBooking(id) {

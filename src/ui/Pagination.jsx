@@ -1,3 +1,5 @@
+import { GrNext, GrPrevious } from "react-icons/gr";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledPagination = styled.div`
@@ -55,3 +57,53 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Pagination({ count }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = !searchParams.get("page")
+    ? 1
+    : Number(searchParams.get("page"));
+
+  const numOfPages = Math.ceil(count / 10);
+
+  function previousPage() {
+    const prev = currentPage === 1 ? currentPage : currentPage - 1;
+
+    searchParams.set("page", prev);
+
+    setSearchParams(searchParams);
+  }
+
+  function nextPage() {
+    const next = currentPage === numOfPages ? currentPage : currentPage + 1;
+
+    searchParams.set("page", next);
+
+    setSearchParams(searchParams);
+  }
+  return (
+    <StyledPagination>
+      <P>
+        <span>{(currentPage - 1) * 10}</span> to{" "}
+        <span>{currentPage * 10 > count ? count : currentPage * 10}</span> of{" "}
+        <span>{count}</span> Results
+      </P>
+      <Buttons>
+        <PaginationButton onClick={previousPage} disabled={currentPage === 1}>
+          <GrPrevious />
+          Previous
+        </PaginationButton>
+        <PaginationButton
+          onClick={nextPage}
+          disabled={currentPage === numOfPages}
+        >
+          Next
+          <GrNext />
+        </PaginationButton>
+      </Buttons>
+    </StyledPagination>
+  );
+}
+
+export default Pagination;
