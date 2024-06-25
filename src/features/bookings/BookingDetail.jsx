@@ -9,10 +9,11 @@ import Tag from "../../ui/Tag";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
-
+import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
+
 import { FaRegCalendarCheck } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BiCheck } from "react-icons/bi";
 import { useCheckInOut } from "../check-in-out/useCheckIn";
 import Modal from "../../ui/Modal";
@@ -33,9 +34,13 @@ function BookingDetail() {
 
   const navigate = useNavigate();
   const moveBack = useMoveBack();
+  const { id } = useParams();
 
   if (isLoading || isPending) return <Spinner />;
 
+  if (!getBooking) {
+    return <Empty resource={`booking #${id}`} />;
+  }
   const status = getBooking.status;
 
   const statusToTagName = {
@@ -92,7 +97,7 @@ function BookingDetail() {
         <Modal>
           <Modal.Open opens="confirm-delete">
             <Button size="small" variation="danger">
-              <MdDeleteOutline />
+              <MdDeleteOutline /> Delete
             </Button>
           </Modal.Open>
           <Modal.Window name="confirm-delete">

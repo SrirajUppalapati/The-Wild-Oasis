@@ -103,31 +103,26 @@ function BookingRow({
         {status === "unconfirmed" && (
           <Button
             variation="secondary"
-            size="small"
+            size="exsmall"
             onClick={() => navigate(`/checkin/${bookingId}`)}
           >
-            <FaRegCalendarCheck />
+            Check In
           </Button>
         )}
         {status === "checked-in" && (
-          <Modal>
-            <Modal.Open opens="confirm-checkout">
-              <Button size="small" variation="primary">
-                <BiCheck />
-              </Button>
-            </Modal.Open>
-            <Modal.Window name="confirm-checkout">
-              <ConfirmDelete
-                onConfirm={() =>
-                  checkInOut({ bookingId, status: "checked-out" })
-                }
-                disabled={isPending}
-                resourceName={`checkout ${guestName}`}
-                variation="primary"
-                buttonText="Check Out"
-              />
-            </Modal.Window>
-          </Modal>
+          <Button
+            size="exsmall"
+            variation="secondary"
+            onClick={() =>
+              checkInOut({
+                bookingId: bookingId,
+                status: "checked-out",
+              })
+            }
+            disabled={isPending}
+          >
+            Check Out
+          </Button>
         )}
         <Button
           variation="secondary"
