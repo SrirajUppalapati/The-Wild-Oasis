@@ -11,6 +11,7 @@ import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import { useState } from "react";
 
 const Img = styled.img`
   display: block;
@@ -39,11 +40,29 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
+const DesButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-brand-800);
+  border: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
 function CabinRow({ cabin }) {
   const { id, name, maxCapacity, reg_price, discount, description, image } =
     cabin;
 
   const { isDeleting, deleteCabin } = useDeleteCabin();
+
+  const [decrease, setDecrease] = useState(true);
 
   const { createCabin } = useCreateCabin();
   function handleCopyCabin() {
@@ -64,7 +83,14 @@ function CabinRow({ cabin }) {
       <Table.Row>
         <Img src={image} />
         <Cabin>{name}</Cabin>
-        <div>{description}</div>
+        <div>
+          {decrease
+            ? `${description.split(" ").splice(0, 10).join(" ")}.....  `
+            : description}
+          <DesButton onClick={() => setDecrease((decrease) => !decrease)}>
+            {decrease ? "Show More" : "Show Less"}
+          </DesButton>
+        </div>
         <div>Fits upto {maxCapacity} guests</div>
         <Discount>
           {discount !== 0 ? (
