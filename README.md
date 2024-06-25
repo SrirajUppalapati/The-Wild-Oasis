@@ -1,5 +1,4 @@
-**The Wild Oasis
-**
+The Wild Oasis
 
 Welcome to The Wild Oasis Website! This application is designed to help hotels manage their operations efficiently, including room bookings, customer information, staff management, and more. The project uses modern web technologies and follows best practices for web development.
 
