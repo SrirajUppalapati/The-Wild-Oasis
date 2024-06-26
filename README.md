@@ -30,7 +30,8 @@ Recharts
 
 Usage
 Navigate to the home page:
-Visit https://the-wild-oasis-blond-gamma.vercel.app/login to access the website.
+Visit: https://the-wild-oasis-blond-gamma.vercel.app/ 
+to access the website.
 
 Manage customers:
 View customer information and update booking history.
