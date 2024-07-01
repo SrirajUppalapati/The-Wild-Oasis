@@ -20,7 +20,6 @@ Welcome to The Wild Oasis website! This application is designed to help hotels e
 - **Context API**
 - **Styled Components**
 - **React Router DOM**
-- **React Forms**
 - **React Error Boundary**
 - **Recharts**
 
