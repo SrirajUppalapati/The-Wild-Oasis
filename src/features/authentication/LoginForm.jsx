@@ -36,6 +36,7 @@ function LoginForm() {
           id="email"
           autoComplete="username"
           value={email}
+          placeholder="sriraj@test.com"
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLogin}
         />
@@ -46,6 +47,7 @@ function LoginForm() {
           id="password"
           autoComplete="current-password"
           value={password}
+          placeholder="test1234"
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLogin}
         />
