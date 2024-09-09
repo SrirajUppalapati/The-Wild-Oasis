@@ -31,7 +31,7 @@ Welcome to The Wild Oasis website! This application is designed to help hotels e
 
 To access the website, navigate to the home page:
 
-- [The Wild Oasis Website](https://the-wild-oasis-blond-gamma.vercel.app/)
+- [The Wild Oasis Website](https://thewildoasis-one.vercel.app/login)
 
 ### Functionality
 
